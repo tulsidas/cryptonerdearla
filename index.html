@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>#nardoz reloaded - introducción a la criptografía</title>
+
+		<meta name="description" content="Introducción a la criptografía">
+		<meta name="author" content="AndresQ">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+		<style type="text/css">
+			.white { color: white; }
+			.orange { color: orange; }
+			.yellow { color: yellow; }
+			.red { color: red; }
+			.green { color: green; }
+		</style>
+	</head>
+
+	<body>
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>nerdear.la</h1>
+					<h2>introducción a la criptografía</h2>
+				</section>
+
+				<section data-background="img/confused.gif">
+					<div style="background-color: rgba(0, 0, 0, 0.3); color: #fff; padding: 20px;">
+						<h2>MD5 MD6 DES AES RC4 RSA XOR MAC SHA ECC DH DSA PKI SSL TLS HMAC GCM AEAD PBKDF2 PKCS</h2>
+					</div>
+				</section>
+
+				<section>
+					<h2>criptografía</h2>
+					<p class="fragment yellow">
+						confidencialidad<br/>
+						<small class="white">que quede entre nos</small>
+					</p>
+					<p class="fragment yellow">
+						integridad<br/>
+						<small class="white">la data que te pasé es posta</small>
+					</p>
+					<p class="fragment yellow">
+						autenticidad<br/>
+						<small class="white">no es imitación</small>
+					</p>
+					<p class="fragment yellow">
+						derivados<br/>
+						<small class="white">validación, certificación, no repudio, timestamping, etc…</small>
+					</p>
+				</section>
+
+				<section>
+					<h2>confidencialidad</h2>
+					<img src="img/alicebob.png" />
+				</section>
+
+				<section>
+					<h2>confidencialidad</h2>
+					<pre><span class="red">c</span> = E<sub>k</sub>(<span class="green">m</span>)</pre>
+					<pre><span class="green">m</span> = D<sub>k</sub>(<span class="red">c</span>)</pre>
+					<pre class="fragment"><span class="green">m</span> = D<sub>k</sub>(E<sub>k</sub>(<span class="green">m</span>))</pre>
+				</section>
+
+				<section>
+					<h1>Historia</h1>
+				</section>
+
+				<section>
+					<h2>Cifrado de César</h2>
+
+					<p>alias ROT-3</p>
+
+					<div class="fragment">
+						<br/>
+						<pre> a b c d e f g h i j k l m n o p q r s t u v w x y z </pre>
+						<pre> D E F G H I J K L M N O P Q R S T U V W X Y Z A B C </pre>
+					</div>
+
+					<pre class="fragment green">hola <span class="white">&rarr;</span> <span class="fragment red">krod</span></pre>
+
+					<br/>
+					<p class="fragment">ROT-N para 1 ≤ n < 26</p>
+				</section>
+
+				<section>
+					<h3>Sustitución monoalfabética</h3>
+					<div class="fragment">
+						<pre> a b c d e f g h i j k l m n o p q r s t u v w x y z </pre>
+						<pre> R Q O A F C J T N E M Z U S D K V L Y X P G H W B I </pre>
+					</div>
+					<div class="fragment">
+						<p>más fácil: frase o palabra clave</p>
+						<pre> a b c d e f g h i j k l m n o p q r s t u v w x y z </pre>
+						<pre><span class="green">M U R C I E L A G O</span> B D F H J K N P Q S T <span class="yellow">V W X Y Z</span></pre>
+					</div>
+					<p class="fragment">clave: permutación del alfabeto</p>
+					<p class="fragment">tamaño de la clave: 26! ≈ 4×10<sup><small>26</small></sup> ≈ 2<sup><small>88</small></sup></p>
+					<p class="fragment">fuerza bruta: <span class="red">difícil</span></p>
+				</section>
+
+				<section>
+					<h3><em>side attack</em></h3>
+					<p class="fragment">≈1200 dc &mdash; frecuencias de letras (árabes)</p>
+					<p class="fragment">análisis de frecuencias del texto cifrado</p>
+					<p class="fragment"><img src="img/frecuencia.png" height="350" width="546"/></p>
+					<p class="fragment"><strong>variantes</strong>: nulls, más de un símbolo por letra, símbolos especiales, etc...</p>
+				</section>
+
+				<section>
+					<h2>Sustitución polialfabética</h2>
+					<p class="fragment"><img src="img/vigenere.gif" height="300"/></p>
+					<pre class="fragment"><span class="yellow">CRIPTO</span>CRIPTOCRIPTOCRIPTOCRIPTOCRIP</pre>
+					<pre class="fragment">ayayayaycantaynollorescielitolindo</pre>
+					<pre class="fragment"><span class="yellow">CP</span>INTM<span class="yellow">CP</span>KPGH<span class="yellow">CP</span>VDEZQIMHVWGCQIHZKELD</pre>
+					<p class="fragment">¡chau frecuencias!</p>
+					<p class="fragment"><em>le chiffre indéchiffrable</em></p>
+				</section>
+
+				<section>
+					<h2>Cifrado de Vigenère</h2>
+					<p class="fragment">clave corta &rarr; <em>fácil</em> (Charles Babbage)</p>
+					<p class="fragment">clave larga &rarr; no tan fácil</p>
+					<p class="fragment">¿clave más larga?</p>
+					<p class="fragment">¿clave <strong>muy</strong> larga?</p>
+					<p class="fragment">¿clave <span style="font-size: 72px; color: #80A0C0">tan larga como el texto</span>?</p>
+				</section>
+
+				<section>
+					<h1>one time pad</h1>
+					<img class="fragment" src="img/HOLY-GRAIL.png" style="background: none; border: none"/>
+					<pre class="fragment">cifrado = clave + texto (mod 26)</pre>
+				</section>
+
+				<section>
+					<h2>one time pad</h2>
+					<p style="color: #80A0C0">texto</p>
+					<pre>elenemigoescobra</pre>
+					<p style="color: #80A0C0">pad (clave)</p>
+					<pre>UMLKLNGLEDFXYOOM</pre>
+					<p style="color: #80A0C0">cifrado</p>
+					<pre class="orange">YXPXPZORSHXZMPFM</pre>
+					<br/>
+					<p class="fragment">random + one time = <em class="yellow">perfect secrecy</em></p>
+				</section>
+
+				<section>
+					<h2>one time pad</h2>
+					<p>supongamos interceptamos el mensaje cifrado</p>
+					<pre class="orange">YXPXPZORSHXZMPFM</pre>
+					<p class="fragment"><strong><em>¡indescifrable incluso con poder computacional ilimitado!</em></strong></p>
+					<pre class="fragment green">ELENEMIGOESPEDRO</pre>
+					<pre class="fragment green">PACOPEDRODELAMAR</pre>
+					<pre class="fragment green">JAVASCRIPTAPESTA</pre>
+					<pre class="fragment green">ABCDEFGHIJKLMNOP</pre>
+					<pre class="fragment green">ZZZZZZZZZZZZZZZZ</pre>
+					<p class="fragment">o sea: puedo obtener <em>cualquier</em> texto</p>
+				</section>
+
+				<section>
+					<h1>FIN</h1>
+					<h3>¡Muchas gracias!</h3>
+					<br/>
+					<h2>¿ ?</h2>
+					<p> Andres Quijano / <a href="http://twitter.com/quixote_arg">@quixote_arg</a> </p>
+				</section>
+
+				<section>
+					<h1>¿FIN? ☹</h1>
+					<p class="fragment">(verdaderamente) aleatorio = <span class="red">difícil</span></p>
+					<p class="fragment">one-time = <span class="red">difícil</span></p>
+					<p class="fragment">distribución de claves = <span class="red">difícil</span></p>
+					<p class="fragment"><br/>en la práctica es poco usado</span></p>
+				</section>
+
+				<section>
+					<h2>Algoritmos actuales (2018)</h2>
+					<p>XSalsa20, AES-GCM</p>
+					<img src="img/aes.png" height="400" />
+				</section>
+
+				<section data-background="img/keydist.gif">
+					<div style="background-color: rgba(0, 0, 0, 0.3); color: #fff; padding: 20px;">
+						<h2>distribución de claves</h2>
+					</div>
+				</section>
+
+				<section>
+					<h2>Diffie-Hellman (1976)</h2>
+					<img src="img/dh-paint.png" height="600" class="fragment" />
+				</section>
+
+				<section>
+					<h2>criptografía asimétrica</h2>
+					<h3 class="fragment"><code>(
+						<span class="green"> k<sub>pub</sub> </span>,
+						<span class="red"> k<sub>pr</sub> </span>
+						)</code>
+					</h3>
+					<p class="fragment"><img src="img/open_padlock.jpg" height="250px"/>&nbsp;&nbsp;&nbsp;<img src="img/key1.jpg" /></p>
+					<pre class="fragment">D(<span class="green">k<sub>pub</sub></span>, E(<span class="green">k<sub>pub</sub></span>, m)) = <span class="fragment">💩</span></pre>
+					<pre class="fragment">D(<span class="red">k<sub>pr</sub></span>, E(<span class="green">k<sub>pub</sub></span>, m)) = <span class="fragment">m</span></pre>
+				</section>
+
+				<section>
+					<h2>criptografía asimétrica</h2>
+					<p class="fragment">≈1000x más lentos que algoritmos simétricos</p>
+					<div class="fragment">
+						<p>necesitan claves más largas</p>
+						<img src="img/pk-keys.png" />
+					</div>
+					<p class="fragment"><code>¿P=NP?</code> <span class="fragment">¡computadoras cuánticas!</span></p>
+				</section>
+
+				<section>
+					<h2>criptografía asimétrica</h2>
+					<p><strong>Sistemas Híbridos</strong></p>
+					<p class="fragment">encriptación asimétrica para intercambio de claves, luego sigo con simétrica</p>
+				</section>
+
+				<section>
+					<h2>criptografía asimétrica</h2>
+					<h3><code>(
+						<span class="green"> k<sub>pub</sub> </span>,
+						<span class="red"> k<sub>pr</sub> </span>
+						)</code>
+					</h3>
+					<pre> D(<span class="red">k<sub>pr</sub></span>, E(<span class="green">k<sub>pub</sub></span>, m)) = m</pre>
+					<p class="fragment"><br/>pero también...</p>
+					<pre class="fragment">D(<span class="green">k<sub>pub</sub></span>, E(<span class="red">k<sub>pr</sub></span>, m)) = <span class="fragment">m</span></pre>
+					<p class="fragment"><br/><em>firma digital</em></p>
+					<p class="fragment"><br/>puedo encriptar y firmar un mensaje</p>
+				</section>
+
+				<section>
+					<h2>criptografía asimétrica</h2>
+					<p><span class="orange">RSA</span>, <span class="orange">ElGamal</span>, <span class="green">EC (Curve25519)</span></p>
+				</section>
+
+				<section>
+					<img src="img/tls.png" />
+					<p class="fragment">AES_128_GCM: AES, k=128 bits, Galois Counter Mode</p>
+					<p class="fragment">ECDHE_RSA = Elliptic Curve Diffie-Hellman Exchange, (firmado con) RSA</p>
+				</section>
+
+				<section data-background="img/integridad.gif">
+					<div style="background-color: rgba(0, 0, 0, 0.3); color: #fff; padding: 20px;">
+						<h2>integridad</h2>
+					</div>
+				</section>
+
+				<section>
+					<h2>hashes criptográficos</h2>
+					<p class="fragment">
+						<code>
+							H: {0,1}<sup>n</sup> &rarr; {0,1}<sup>m</sup>
+							<br/><br/>
+							n: cualquier valor
+							<br/>
+							m: fijo
+						</code>
+					</p>
+				</section>
+
+				<section>
+					<h2>hashes criptográficos</h2>
+					<br/>
+					<pre class="fragment"><code>h("")             = d41d8cd98f00b204e9800998ecf8427e</code></pre>
+					<pre class="fragment"><code>h("hola pianola") = ba5ba94503a131c30b74b38ed79f8ca7</code></pre>
+					<pre class="fragment"><code>h("<span class="yellow">b</span>ola pianola") = d39782d2407cfaebc768d7fb34314b4c</code></pre>
+					<pre class="fragment"><code>h(&lt;archivo 5 GB&gt;) = a65d9af020e3f83858c5fba893cb7a42</code></pre>
+					<br/>
+					<pre class="fragment">Hallar <em>m</em> tal que <code>h(m) = d2419fa03f565dc7f8b31ed0539d151c</code></pre>
+					<p class="fragment">💣</p>
+				</section>
+
+				<section>
+					<h2>hashes criptográficos</h2>
+					<p class="fragment red">MD4 / MD5 (128)</p>
+					<p class="fragment orange">SHA-1 (160)</p>
+					<p class="fragment green">SHA-2 (224 / 256 / 384 / 512)</p>
+					<p class="fragment"><span class="green">SHA-3 (224 / 256 / 384 / 512) </span></p>
+				</section>
+
+				<section data-background="img/authentic.gif">
+					<div style="background-color: rgba(0, 0, 0, 0.3); color: #fff; padding: 20px;">
+						<h2>autenticidad</h2>
+					</div>
+				</section>
+
+				<section>
+					<h2>Message Authentication Code (MAC)</h2>
+					<p class="fragment">hash criptográfico <span class="yellow">con clave</span></p>
+					<p class="fragment">proveen <strong class="yellow">integridad y autenticidad</strong> a un mensaje</p>
+					<p class="fragment">es computacionalmente imposible modificar el mensaje y también el MAC</p>
+				</section>
+
+				<section>
+					<h2>MAC actuales</h2>
+					<p>OMAC</p>
+					<p>CBC-MAC</p>
+					<p>PMAC</p>
+					<p class="green">HMAC</p>
+				</section>
+
+				<section>
+					<h3>Authenticated Encryption</h3>
+					<div class="fragment">
+						<p>encrypt-and-mac</p>
+						<p>E<sub>k</sub>(m) || MAC<sub>k</sub>(m)</p>
+						<p class="fragment red">MAC puede filtrar info de <code>m</code></p>
+					</div>
+					<div class="fragment">
+						<hr/>
+						<p>mac-then-encrypt</p>
+						<p>E<sub>k</sub>(m || MAC<sub>k</sub>(m))</p>
+						<p class="fragment orange">puede fallar</p>
+					</div>
+					<div class="fragment">
+						<hr/>
+						<p>encrypt-then-mac</p>
+						<p>E<sub>k</sub>(m) || MAC<sub>k</sub>(E<sub>k</sub>(m))</p>
+						<p class="fragment green">siempre correcto</p>
+					</div>
+				</section>
+
+				<section>
+					<img src="img/etpa.jpg" />
+					<p>Si aún queda tiempo, pasa a la siguiente página</p>
+					<p>Si te quedaste sin tiempo, huye antes que te tiren tomates</p>
+					<em class="fragment">risas</em>
+				</section>
+
+				<section data-background="img/saitama.gif">
+					<div style="background-color: rgba(0, 0, 0, 0.3); color: #fff; padding: 20px;">
+						<h2>one time passwords</h2>
+						<p>no confundir con <em style="color: cyan">one time pad</em></p>
+					</div>
+				</section>
+
+				<section>
+					<div style="padding: 50px; display: inline-block;"><img src="img/gmail-login-mobile.png" /><br/>1</div>
+					<div class="fragment" style="padding: 50px; display: inline-block;"><img src="img/coords.jpg" /><br/>≈100</div>
+					<div class="fragment" style="padding: 50px; display: inline-block;"><img src="img/googleauth.png" width="180" /><br/>1.000.000</div>
+				</section>
+
+				<section>
+					<h2>one-time passwords</h2>
+					<p class="fragment">cliente y servidor comparten una clave privada <code class="orange">k</code></p>
+					<p class="fragment">time based | counter based</p>
+					<p class="fragment"> groso modo: </p>
+					<p class="fragment">encriptá el contador/hora actual <code class="orange">c</code> con la clave <code class="orange">k</code> y decime cuánto te dio</p>
+					<p class="fragment">si los valores coinciden, el usuario es auténtico</p>
+				</section>
+
+				<section>
+					<h1>FIN</h1>
+					<small>ahora si</small>
+					<h3>¡Muchas gracias!</h3>
+					<br/>
+					<h2>¿ ?</h2>
+					<p> Andres Quijano / <a href="http://twitter.com/quixote_arg">@quixote_arg</a> </p>
+				</section>
+			</div>
+		</div>
+
+		<script src="js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: false,
+				history: true,
+				center: true,
+
+				theme: "black",
+				transition: "linear"
+			});
+		</script>
+	</body>
+</html>
